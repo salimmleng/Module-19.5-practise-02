@@ -1,0 +1,45 @@
+
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+
+<h1 class='text-center py-4'>Musicians Directory</h1>
+<div container >
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">Id</th>
+      <th scope="col">Musician Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Album rating</th>
+      <th scope="col">Instrument type</th>
+      <th scope="col">Album name</th>
+      <th scope="col">Release date</th>
+      {% if request.user.is_authenticated %}
+      <th scope="col">Actions</th>
+      {% endif %}
+    </tr>
+  </thead>
+  <tbody>
+    {%for alb in data %}
+    <tr>
+      <th scope="row">{{alb.id}}</th>
+      <td><a class="text-decoration-none text-dark" href="{% url 'edit_musician' alb.musician.id %}">{{alb.musician.first_name}}</a></td>
+      <td>{{alb.musician.email}}</td>
+      <td>{{alb.rating}}</td>
+      <td>{{alb.musician.instrument_type}}</td>
+      <td>{{alb.album_name}}</td>
+      <td>{{alb.album_release_date}}</td>
+      {% if request.user.is_authenticated %}
+      <td><a class="btn btn-primary" href="{% url 'edit_album' alb.id %}">Edit</a><a class="mx-2 btn btn-danger" href="{% url 'delete_musician' alb.musician.id %}">Delete</a></td>
+      {% endif %}
+    </tr>
+    {% endfor %}
+   
+  </tbody>
+</table>
+</div>
+
+
+{% endblock %}
