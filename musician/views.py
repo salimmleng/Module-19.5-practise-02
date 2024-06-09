@@ -35,23 +35,22 @@ class UserLoginView(LoginView):
     
   
     def get_success_url(self):
-        return reverse_lazy('login')
+        return reverse_lazy('home')
+
 
 
 class UserLogoutView(LogoutView):
     def get_success_url(self):
-        return reverse_lazy('login')
+        return reverse_lazy('home')
+    
 
 
 
-class MusicianCreateView(LoginRequiredMixin, CreateView):
+class MusicianCreateView(CreateView):
     model = Musician
     form_class = MusicianForm
     template_name = 'music.html'
     success_url = reverse_lazy('home')
-
-    login_url = '/login/'
-    redirect_field_name = 'index'
 
     def form_valid(self, form):
         return super().form_valid(form)
@@ -61,7 +60,7 @@ class MusicianCreateView(LoginRequiredMixin, CreateView):
 
 
 
-class MusicianUpdateView(UpdateView):
+class MusicianUpdateView(LoginRequiredMixin, UpdateView):
     model = Musician
     form_class = MusicianForm
     template_name = 'edit.html'
